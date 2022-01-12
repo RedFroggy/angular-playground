@@ -2,7 +2,7 @@ version: 2 # use CircleCI 2.0
 
 job_defaults: &job_defaults
   docker:
-    - image: cimg/node:14.16.1-browsers
+    - image: cimg/node:17.3.1-browsers
 
 cache_key: &cache_key angular-starter-kit-v1-deps-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
 dist_key: &dist_key angular-starter-kit-v1-dist-{{ .Revision }}
@@ -42,17 +42,6 @@ jobs:
           paths:
             - dist
 
-  release:
-    <<: *job_defaults
-    steps:
-      - checkout
-      - restore_cache:
-          key: *cache_key
-      - restore_cache:
-          key: *dist_key
-      - run: cp package.json dist/main
-      - run: npm run release
-
 workflows:
   version: 2
   build-test-release:
@@ -61,9 +50,3 @@ workflows:
       - build:
           requires:
             - install
-      - release:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master

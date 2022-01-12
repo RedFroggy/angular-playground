@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from '../environments/environment';
 import { registerLocaleData } from '@angular/common';
@@ -14,7 +14,7 @@ import { APP_VERSION } from 'app/app.constants';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   account: AccountModel;
   authenticated: boolean;
   title = 'angular-starter-kit';
@@ -36,17 +36,19 @@ export class AppComponent {
 
     this.accountRepository.getAccount().subscribe((account) => (this.account = account));
     this.accountRepository.hasAccount().subscribe((authenticated) => (this.authenticated = authenticated));
+  }
 
+  ngOnInit(): void {
     if (!environment.production) {
-      (window as any).app = APP_VERSION;
+      window.app = APP_VERSION;
     }
   }
 
-  changeLocale() {
+  changeLocale(): void {
     this.translateService.use(this.locale);
   }
 
-  logout() {
+  logout(): void {
     this.accountRepository.removeAccount();
     this.router.navigate(['login']);
   }

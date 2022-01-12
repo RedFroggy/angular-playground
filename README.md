@@ -45,62 +45,7 @@
 
 `npm run lint`. It will both check angular code and file naming conventions.
 
-## Aws deployment
-
-The aws architecture is created via cloudformation and relies on [aws cdk scripts](deploy/index.ts)
-
-### Architecture
-
-- S3 bucket: `angular.redfroggy.io`
-- A cloudfront distribution which is the entry point.
-
-### Aws stack
-
-- `npm run aws-synth` Will check that the `cloudformation` stack is valid.
-- `npm run aws-deploy`. Will create, deploy and run aws `cloudformation` scripts written in the [deploy folder](deploy).
-
-## CI/CD workflow
-
-### Branch workflow
-
-![alt text](.gitlab/gitlab_branch_workflow.png 'Gilab branch workflow')
-
-| Job         | Description                                                    |
-| ----------- | -------------------------------------------------------------- |
-| test-and-qa | Angular unit tests, e2e (cypress) tests and lint verifications |
-
-### Master workflow
-
-![alt text](.gitlab/gitlab_master_workflow.png 'Gilab master workflow')
-
-| Job         | Description                                                                                  |
-| ----------- | -------------------------------------------------------------------------------------------- |
-| test-and-qa | Angular unit tests, e2e (cypress) tests and lint verifications                               |
-| build       | Build the Angular application                                                                |
-| release     | Manual job. Run `semantic-release` and perform a new release (changelog generation, git tag) |
-| cloudfront  | Deploy the Angular stack in AWS using `AWS CDK``                                             |
-
-## Perform a release
-
-`npm run release`. Will check commit messages, generate changelog, create a git tag.
-
-## Generate swagger definition files
-
-`npm run swagger` : Will generate the swagger files based on the [swagger-config.json](swagger-config.json) file.
-
-## Perform a webpack bundle analysis
-
-`npm run analyze`
-
-## Environment variables
-
-| Key              | Value                                                                    |
-| ---------------- | ------------------------------------------------------------------------ |
-| CERTTIFICATE_ARN | `AWS CDK` role arn. Used to perform action on aws cloudformation stack   |
-| DOMAIN_DEV       | `AWS CDK` domain. Application domain used in cldoufront, route53, etc    |
-| SUBDOMAIN_DEV    | `AWS CDK` subdomain. Application domain used in cldoufront, route53, etc |
-
-### Framework
+### Framework / Librairies
 
 - [Angular](https://angular.io/)
 - [Angular ng bootstrap](https://ng-bootstrap.github.io) for UI
@@ -123,13 +68,12 @@ The aws architecture is created via cloudformation and relies on [aws cdk script
 
 - [es-lint](https://eslint.org)
 - [ls-lint](https://github.com/loeffel-io/ls-lint) for checking file name conventions
-- [angular-tslint-rules](https://www.npmjs.com/package/angular-tslint-rules) for Angular [best practices](https://angular.io/guide/styleguide) linter
+- [angular-eslint/eslint-plugin](https://www.npmjs.com/package/@angular-eslint/eslint-plugin) for Angular [best practices](https://angular.io/guide/styleguide) linter
 - [prettier](https://prettier.io/) as a code formatter
 
 ### Rest API tools
 
-- [ng-swagger-gen](https://github.com/cyclosproject/ng-swagger-gen#readme) to generate Angular models and services based on swagger rest api doc.
-- [class-transformer](https://github.com/typestack/class-transformer) to use deep class objet instances for rest api data instead of plain objects
+- [openapi-generator](https://openapi-generator.tech) to generate Angular models and services based on swagger rest api doc.
 
 ### Release management
 
