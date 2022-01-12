@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
-import { AccountRepository } from 'app/features/login/repository/account.repository';
+import { CanActivate, Router } from '@angular/router';
+import { AccountStore } from 'app/features/login/store/account.store';
 
 @Injectable()
 export class CanAuthenticationGuard implements CanActivate {
-  constructor(protected readonly router: Router, private readonly accountRepository: AccountRepository) {}
+  constructor(protected readonly router: Router, private readonly accountStore: AccountStore) {}
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+  canActivate(): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      this.accountRepository
+      this.accountStore
         .hasAccount()
         .pipe()
         .subscribe((authenticated) => {
-          console.log('Already authenticated, skip login page', authenticated);
+          console.info('Already authenticated, skip login page', authenticated);
           if (!authenticated) {
             console.warn('Not authenticated, please log in', authenticated);
             this.router.navigate(['login']);

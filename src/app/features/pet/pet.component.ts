@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Pet } from 'app/shared/api';
 import { map, Observable } from 'rxjs';
-import { AccountRepository } from 'app/features/login/repository/account.repository';
-import { PetsRepository } from 'app/features/pet/repository/pets.repository';
+import { AccountStore } from 'app/features/login/store/account.store';
+import { PetsStore } from 'app/features/pet/store/pets.store';
 
 @Component({
   selector: 'app-pet',
@@ -14,16 +14,16 @@ export class PetComponent {
   accountFullName$: Observable<string>;
   constructor(
     route: ActivatedRoute,
-    private readonly petsRepository: PetsRepository,
-    private readonly accountRepository: AccountRepository
+    private readonly petsStore: PetsStore,
+    private readonly accountStore: AccountStore
   ) {
     route.params.subscribe((params) => {
       if (params.id) {
-        this.petsRepository.findById(params.id).subscribe((pet) => (this.pet = pet));
+        this.petsStore.findById(params.id).subscribe((pet) => (this.pet = pet));
       }
     });
 
-    this.accountFullName$ = accountRepository
+    this.accountFullName$ = accountStore
       .getAccount()
       .pipe(map((account) => `${account.firstName} ${account.lastName}`));
   }

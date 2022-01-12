@@ -1,10 +1,10 @@
 import { createState, Store } from '@ngneat/elf';
-import { deleteAllEntities, selectFirst, setEntities, withEntities } from '@ngneat/elf-entities';
+import { selectFirst, setEntities, withEntities } from '@ngneat/elf-entities';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { AccountModel } from 'app/features/login/models/account.model';
 
-import { persistState, localStorageStrategy } from '@ngneat/elf-persist-state';
+import { localStorageStrategy, persistState } from '@ngneat/elf-persist-state';
 
 const { state, config } = createState(withEntities<AccountModel>());
 
@@ -16,8 +16,8 @@ export const persist = persistState(store, {
 });
 
 @Injectable()
-export class AccountRepository {
-  setAccount(account: AccountModel) {
+export class AccountStore {
+  setAccount(account: AccountModel): void {
     store.update(setEntities([account]));
   }
 
@@ -27,9 +27,5 @@ export class AccountRepository {
 
   getAccount(): Observable<AccountModel> {
     return store.pipe(selectFirst());
-  }
-
-  removeAccount() {
-    store.update(deleteAllEntities());
   }
 }

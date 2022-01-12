@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from 'app/features/login/services/login.service';
-import { AccountRepository } from 'app/features/login/repository/account.repository';
+import { AccountStore } from 'app/features/login/store/account.store';
 import { tap } from 'rxjs';
 
 @Component({
@@ -14,14 +14,16 @@ export class LoginComponent {
 
   constructor(
     private readonly loginService: LoginService,
-    private readonly accountRepository: AccountRepository,
+    private readonly accountStore: AccountStore,
     private router: Router
   ) {}
 
   authenticate() {
     this.loginService
       .authenticate(this.username, this.password)
-      .pipe(tap((account) => this.accountRepository.setAccount(account)))
-      .subscribe(() => this.router.navigate(['pets']));
+      .pipe(tap((account) => this.accountStore.setAccount(account)))
+      .subscribe(() => {
+        this.router.navigate(['pets']);
+      });
   }
 }

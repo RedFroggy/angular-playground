@@ -1,14 +1,14 @@
 import { CanActivate, Routes } from '@angular/router';
 import { LoginComponent } from 'app/features/login/login.component';
 import { Injectable } from '@angular/core';
-import { AccountRepository } from 'app/features/login/repository/account.repository';
+import { AccountStore } from 'app/features/login/store/account.store';
 
 @Injectable()
 export class CanLoginGuard implements CanActivate {
-  constructor(private accountRepository: AccountRepository) {}
+  constructor(private accountStore: AccountStore) {}
   canActivate(): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      this.accountRepository
+      this.accountStore
         .hasAccount()
         .pipe()
         .subscribe((authenticated) => {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Pet, PetService } from 'app/shared/api';
-import { PetsRepository } from 'app/features/pet/repository/pets.repository';
+import { PetsStore } from 'app/features/pet/store/pets.store';
 import { tap } from 'rxjs';
 
 @Component({
@@ -10,20 +10,20 @@ import { tap } from 'rxjs';
 export class PetListComponent implements OnInit {
   pets: Pet[];
   status: 'available' | 'pending' | 'sold' = 'pending';
-  constructor(private readonly petsRepository: PetsRepository, private readonly petService: PetService) {}
+  constructor(private readonly petsStore: PetsStore, private readonly petService: PetService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadPets();
   }
 
-  selectStatus() {
+  selectStatus(): void {
     this.loadPets();
   }
 
-  loadPets() {
+  loadPets(): void {
     this.petService
       .findPetsByStatus(this.status)
-      .pipe(tap((pets) => this.petsRepository.setPets(this.status, pets)))
+      .pipe(tap((pets) => this.petsStore.setPets(this.status, pets)))
       .subscribe((pets) => (this.pets = pets));
   }
 }

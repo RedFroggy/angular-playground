@@ -4,13 +4,14 @@ import { Injectable } from '@angular/core';
 import { createRequestDataSource, withRequestsStatus } from '@ngneat/elf-requests';
 import { Pet } from 'app/shared/api';
 import { Observable } from 'rxjs';
+import { PetModel } from 'app/features/pet/models/pet.model';
 
-const { state, config } = createState(withEntities<any>(), withRequestsStatus());
+const { state, config } = createState(withEntities<PetModel>(), withRequestsStatus());
 
 const store = new Store({ state, config, name: 'pet' });
 
 @Injectable()
-export class PetsRepository {
+export class PetsStore {
   dataSource;
   constructor() {
     this.dataSource = createRequestDataSource({
@@ -30,7 +31,7 @@ export class PetsRepository {
     return store.pipe(selectAll());
   }
 
-  setPets(status: string, pets: Pet[]) {
-    store.update(setEntities(pets), this.dataSource.setSuccess());
+  setPets(status: string, pets: Pet[]): void {
+    store.update(setEntities(pets as PetModel[]), this.dataSource.setSuccess());
   }
 }

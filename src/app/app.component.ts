@@ -6,8 +6,9 @@ import localeEn from '@angular/common/locales/en';
 import { PetModel } from './features/pet/models/pet.model';
 import { Router } from '@angular/router';
 import { AccountModel } from 'app/features/login/models/account.model';
-import { AccountRepository } from 'app/features/login/repository/account.repository';
+import { AccountStore } from 'app/features/login/store/account.store';
 import { APP_VERSION } from 'app/app.constants';
+import { StoreUtil } from 'app/shared/store/store-util';
 
 @Component({
   selector: 'app-root',
@@ -16,14 +17,13 @@ import { APP_VERSION } from 'app/app.constants';
 })
 export class AppComponent implements OnInit {
   account: AccountModel;
-  authenticated: boolean;
   title = 'angular-starter-kit';
   locale: string;
   pets: PetModel[] = [];
 
   constructor(
     private readonly translateService: TranslateService,
-    private readonly accountRepository: AccountRepository,
+    private readonly accountStore: AccountStore,
     private readonly router: Router
   ) {
     this.locale = environment.defaultLanguage;
@@ -34,12 +34,12 @@ export class AppComponent implements OnInit {
 
     translateService.setDefaultLang(environment.defaultLanguage);
 
-    this.accountRepository.getAccount().subscribe((account) => (this.account = account));
-    this.accountRepository.hasAccount().subscribe((authenticated) => (this.authenticated = authenticated));
+    this.accountStore.getAccount().subscribe((account) => (this.account = account));
   }
 
   ngOnInit(): void {
     if (!environment.production) {
+      StoreUtil.enableDevTools();
       window.app = APP_VERSION;
     }
   }
@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
   }
 
   logout(): void {
-    this.accountRepository.removeAccount();
+    StoreUtil.clearStores();
     this.router.navigate(['login']);
   }
 }

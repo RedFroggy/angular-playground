@@ -1,7 +1,7 @@
 <!--The content below is only a placeholder and can be replaced.-->
 
 <div class="container">
-  <div class="d-flex justify-content-end" *ngIf="authenticated">
+  <div class="d-flex justify-content-end" *ngIf="account">
     <select class="form-select-sm" name="locale" id="locale" (change)="changeLocale()" [(ngModel)]="locale">
       <option value="fr">FR</option>
       <option value="en">EN</option>
