@@ -56,3 +56,4 @@ cdk.out/
 .jest-cache/
 /src/stories
 storybook-static
+documentation.json
