@@ -19,7 +19,8 @@
     "docs:json": "compodoc -p ./tsconfig.json -e json -d .",
     "storybook:serve": "npm run docs:json && start-storybook -p 6006",
     "storybook:build": "build-storybook",
-    "storybook:deploy": "npx chromatic"
+    "storybook:deploy": "npm run docs:json && npx chromatic",
+    "chromatic": "npm run storybook:deploy"
   },
   "private": true,
   "dependencies": {
