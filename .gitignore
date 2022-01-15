@@ -57,3 +57,4 @@ cdk.out/
 /src/stories
 storybook-static
 documentation.json
+build-storybook.log

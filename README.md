@@ -1,4 +1,4 @@
-# Angular starter kit
+# Angular playground
 
 <div align="center">
   <a name="logo" href="https://www.redfroggy.fr"><img src=".gitlab/logo.png" alt="RedFroggy"></a>
