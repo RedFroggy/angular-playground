@@ -11,14 +11,14 @@ module.exports = {
     "!src/app/shared/api/**/*.ts",
     "!src/app/features/**/*.model.ts"
   ],
-  coverageThreshold: {
+  /*coverageThreshold: {
     global: {
       statements: 100,
       branches: 100,
       functions: 100,
       lines: 100
     }
-  },
+  },*/
   transform: {
     "^.+\\.(ts|js|html)$": "jest-preset-angular"
   },
