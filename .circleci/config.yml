@@ -35,8 +35,8 @@ jobs:
       - run: npm run test:ci
       - run: npm run codecov
       - run: export CYPRESS_CACHE_FOLDER=~/.cache/Cypress
-      - run: npm run e2e:ci:concurrent
       - run: npm run build
+      - run: npm run storybook:deploy
       - save_cache:
           key: *dist_key
           paths:

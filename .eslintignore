@@ -5,3 +5,4 @@ src/app/shared/api
 src/test
 src/**/*.spec.ts
 src/**/*.html
+src/**/*.stories.ts
